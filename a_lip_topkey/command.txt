@@ -1,0 +1,1 @@
+lip-vireo -dir C:\Users\lantuzi\Desktop\argusvideo\data\image\1301\ -d dog -p FIFT -dsdir C:\Users\lantuzi\Desktop\argusvideo\data\sift\1301\ -c exam.conf

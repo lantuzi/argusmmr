@@ -7,7 +7,7 @@ from scipy import cluster
 
 path="C:\\Users\\lantuzi\\Desktop\\argusvideo\\data"
 foldername=['1301', '1304']
-numfeature=800
+numfeature=100
 dimension=128
 inteval=12
 #----------1. convert pkeys to bin------------
@@ -34,9 +34,10 @@ for i in xrange(len(foldername)):
                     temp+=sift[m*inteval+n]
                 bin.append(temp)
             bin=np.array(bin)
-            np.savetxt(path+'\\bin\\'+foldername[i]+'\\'+str(j+1).zfill(4)+'.bin',bin)
+            np.savetxt(path+'\\bin\\'+foldername[i]+'\\'+str(j+1).zfill(4)+'.bin',bin,fmt='%i')
 '''
 #----------2.compute clustering centers from bin------------
+'''
 bin_all=[]
 mark=[]
 for i in xrange(len(foldername)):
@@ -54,27 +55,28 @@ for i in xrange(len(foldername)):
             bin_all=bin
         else:
             bin_all=np.concatenate((bin_all, bin), axis=0)
-    np.savetxt(path+'\\cluster\\namelist_'+foldername[i]+'.txt',nameframeeach)
+    np.savetxt(path+'\\cluster\\namelist_'+foldername[i]+'.txt',nameframeeach,fmt='%s')
 print len(bin_all)
 print mark
 bin_all=np.array(bin_all)
-np.save('binall.npy',bin_all)
+np.save('bin_all.npy',bin_all)
 #bin_all=np.load('binall.npy')
 res,idx = cluster.vq.kmeans2(bin_all,500,iter=20)
 bin_all=[]
-np.savetxt(path+'\\cluster\\clusterindex.txt',idx)
+np.savetxt(path+'\\cluster\\clusterindex.txt',idx,fmt='%i')
+'''
 #----------3.convert labels to histogram------------
-idx=np.loadtxt(path+'\\cluster\\clusterindex.txt')
+idx=np.loadtxt(path+'\\cluster\\clusterindex.txt',dtype='int')
 lengtotal=0
 for i in xrange(2):
-    namelist=np.loadtxt(path+'\\cluster\\namelist_'+foldername[i]+'.txt')
-    data=idx[lengtotal:lengtotal+len(namelist)]
+    namelist=np.loadtxt(path+'\\cluster\\namelist_'+foldername[i]+'.txt',dtype='int')
+    data=idx[lengtotal:lengtotal+len(namelist)*numfeature]
     hist=[]
     for j in xrange(len(namelist)):
         temp=data[j*numfeature:(j+1)*numfeature]
         hist1=np.bincount(temp, minlength=501)
         hist1[0]=namelist[j]
         hist.append(hist1)
-    np.savetxt(path+'\\hist\\'+foldername[i]+'.txt',hist)
+    np.savetxt(path+'\\hist\\'+foldername[i]+'.txt',hist,fmt='%i')
     lengtotal+=len(namelist)
 

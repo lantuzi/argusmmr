@@ -11,7 +11,7 @@ numfeature=800
 dimension=128
 inteval=12
 #----------1. convert pkeys to bin------------
-
+'''
 bin_all=[]
 bin_all_byfolder=[]
 for i in xrange(len(foldername)):
@@ -27,15 +27,15 @@ for i in xrange(len(foldername)):
                 if line:            # lines (ie skip them)
                     line = [float(k) for k in line]
                     sift.append(line)
-        for m in xrange(numfeature):
-            temp=[]
-            for n in xrange(2,2+inteval-1):
-                temp+=sift[m*inteval+n]
-            bin.append(temp)
-        bin=np.array(bin)
-        if len(bin)==numfeature:
+        if len(sift)==numfeature*inteval+1:
+            for m in xrange(numfeature):
+                temp=[]
+                for n in xrange(2,2+inteval-1):
+                    temp+=sift[m*inteval+n]
+                bin.append(temp)
+            bin=np.array(bin)
             np.savetxt(path+'\\bin\\'+foldername[i]+'\\'+str(j+1).zfill(4)+'.bin',bin)
-
+'''
 #----------2.compute clustering centers from bin------------
 bin_all=[]
 mark=[]
@@ -44,13 +44,16 @@ for i in xrange(len(foldername)):
     list.sort()
     nameframeeach=[]
     for j in list:
+        print j
         nameframeeach.append(j.split('\\')[-1].split('.bin')[0])
         bin=np.loadtxt(j)
         if len(bin)!=numfeature:
             mark.append(j)
             continue
-        for m in bin:
-            bin_all.append(m)
+        if bin_all==[]:
+            bin_all=bin
+        else:
+            bin_all=np.concatenate((bin_all, bin), axis=0)
     np.savetxt(path+'\\cluster\\namelist_'+foldername[i]+'.txt',nameframeeach)
 print len(bin_all)
 print mark

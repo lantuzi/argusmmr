@@ -15,7 +15,9 @@ for i in xrange(len(foldername)):
     simmat=np.zeros([leng,leng])
     for m in xrange(leng):
         for n in xrange(leng):
-            simmat[m,n]=1.0-cosine(hist[m,:],hist[n,:])
+            if simmat[m,n]==0:
+                simmat[m,n]=1.0-cosine(hist[m,:],hist[n,:])
+                simmat[n,m]=simmat[m,n]
     # first frame in mmr
     result=[]
     tempsim=0

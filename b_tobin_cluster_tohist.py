@@ -75,8 +75,9 @@ for i in xrange(2):
     for j in xrange(len(namelist)):
         temp=data[j*numfeature:(j+1)*numfeature]
         hist1=np.bincount(temp, minlength=501)
+        hist1=hist1*1./(np.sum(hist1)*1.)
         hist1[0]=namelist[j]
         hist.append(hist1)
-    np.savetxt(path+'\\hist\\'+foldername[i]+'.txt',hist,fmt='%i')
+    np.savetxt(path+'\\hist\\'+foldername[i]+'.txt',hist,fmt='%1.3f')
     lengtotal+=len(namelist)
 

@@ -8,7 +8,7 @@ path="C:\\Users\\lantuzi\\Desktop\\argusvideo\\data"
 foldername=['1301', '1304']
 sumframename=[]
 for i in xrange(len(foldername)):
-    data=np.loadtxt(path+'\\hist\\'+foldername[i]+'.txt')
+    data=np.loadtxt(foldername[i]+'.txt')
     namelist=data[:,0]
     hist=data[:,1:]
     leng,numfeature =hist.shape
@@ -18,12 +18,15 @@ for i in xrange(len(foldername)):
             if simmat[m,n]==0:
                 simmat[m,n]=1.0-cosine(hist[m,:],hist[n,:])
                 simmat[n,m]=simmat[m,n]
+    #simmat=np.load('simmat_1301.npy')
     # first frame in mmr
     result=[]
     tempsim=0
     rec=-1
     for m in xrange(leng):
-        tempsim2=gmean(simmat[m,:], axis=0)
+        ttp=simmat[m,:]
+        ttp2=ttp[ttp!=0]
+        tempsim2=gmean(ttp2, axis=0)**len(ttp2)**(1.0/len(ttp))
         if tempsim2 > tempsim:
             rec=m
             tempsim = tempsim2
@@ -48,4 +51,3 @@ for i in xrange(len(foldername)):
                 rec = m
         result.append(rec)
     sumframename.append(namelist[result])
-

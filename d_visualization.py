@@ -11,23 +11,10 @@ for i in foldername:
         continue
     list=np.loadtxt(imagepath+'summary/namelist_'+i+'.txt')
 
-    list3=list[1:21]
-    list3.sort()
-    leng=len(list3)
-    fig=pylab.figure()
-    fig.subplots_adjust(hspace=0.,wspace=0.05)
-    for j in xrange(leng):
-        name=imagepath+'image/'+i+'/'+str(int(list3[j])).zfill(4)+'.jpg'
-        jpgfile = Image.open(name)
-        pylab.subplot(leng/10,10,j+1)
-        pylab.imshow(jpgfile)
-        pylab.axis('off')
-    pylab.show()
-
     list3=list[1:51]
     list3.sort()
     leng=len(list3)
-    fig=pylab.figure()
+    fig=pylab.figure(figsize=(100,80),dpi=100)
     fig.subplots_adjust(hspace=0.,wspace=0.05)
     for j in xrange(leng):
         name=imagepath+'image/'+i+'/'+str(int(list3[j])).zfill(4)+'.jpg'

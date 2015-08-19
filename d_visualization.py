@@ -15,7 +15,7 @@ for each in listall:
     list3=list[1:]
     list3.sort()
     leng=len(list3)
-    fig=pylab.figure(figsize=(100,80),dpi=100)
+    fig=pylab.figure(figsize=(50,40),dpi=300)
     fig.subplots_adjust(hspace=0.,wspace=0.05)
     for j in xrange(leng):
         name=imagepath+'image/'+each.split('namelist_')[-1].split('_')[0]+'/'+str(int(list3[j])).zfill(4)+'.jpg'
@@ -23,7 +23,9 @@ for each in listall:
         pylab.subplot(leng/10,10,j+1)
         pylab.imshow(jpgfile)
         pylab.axis('off')
-    pylab.show()
+    pylab.savefig(imagepath+'summary/'+each.split('namelist_')[-1].split('.txt')[0]+'.png')
+    pylab.close()
+
 
 
     # rows=10

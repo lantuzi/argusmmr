@@ -1,23 +1,24 @@
 import numpy as np
 from matplotlib import pylab
 from PIL import Image
-
+import glob
 
 foldername=['1301', '1304']
 imagepath='../data/'
+listall=glob.glob(imagepath+'summary/namelist_*.txt')
+listall.sort()
 
-for i in foldername:
-    if i=='1301':
-        continue
-    list=np.loadtxt(imagepath+'summary/namelist_'+i+'.txt')
+for each in listall:
 
-    list3=list[1:51]
+    list=np.loadtxt(each)
+
+    list3=list[1:]
     list3.sort()
     leng=len(list3)
     fig=pylab.figure(figsize=(100,80),dpi=100)
     fig.subplots_adjust(hspace=0.,wspace=0.05)
     for j in xrange(leng):
-        name=imagepath+'image/'+i+'/'+str(int(list3[j])).zfill(4)+'.jpg'
+        name=imagepath+'image/'+each.split('namelist_')[-1].split('_')[0]+'/'+str(int(list3[j])).zfill(4)+'.jpg'
         jpgfile = Image.open(name)
         pylab.subplot(leng/10,10,j+1)
         pylab.imshow(jpgfile)

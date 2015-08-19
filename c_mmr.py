@@ -4,13 +4,13 @@ from scipy.spatial.distance import cosine
 from scipy.stats import gmean
 
 sumlenall=[51,101]
-path="C:\\Users\\lantuzi\\Desktop\\argusvideo\\data"
+path="../data"
 foldername=['1301', '1304']
 sumframename=[]
 
 for sumlen in sumlenall:
     for i in xrange(len(foldername)):
-        data=np.loadtxt(path+'\\hist\\hist'+foldername[i]+'.txt')
+        data=np.loadtxt(path+'/hist/hist'+foldername[i]+'.txt')
         namelist=data[:,0]
         hist=data[:,1:]
         leng,numfeature =hist.shape
@@ -20,7 +20,7 @@ for sumlen in sumlenall:
         #         if simmat[m,n]==0:
         #             simmat[m,n]=1.0-cosine(hist[m,:],hist[n,:])
         #             simmat[n,m]=simmat[m,n]
-        simmat=np.load(path+'\\hist\\simmat_'+foldername[i]+'.npy')
+        simmat=np.load(path+'/hist/simmat_'+foldername[i]+'.npy')
         # first frame in mmr
         result=[]
         tempsim=0
@@ -54,4 +54,4 @@ for sumlen in sumlenall:
                     simtemp = mmr
                     rec = m
             result.append(rec)
-        np.savetxt(path+'\\summary\\namelist_'+foldername[i]+'_'+str(sumlen-1)+'.txt',namelist[result],fmt='%i')
+        np.savetxt(path+'/summary/namelist_'+foldername[i]+'_'+str(sumlen-1)+'.txt',namelist[result],fmt='%i')

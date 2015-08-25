@@ -4,27 +4,28 @@ from PIL import Image
 import glob
 
 foldername=['1301', '1304']
+sumsize=['50','100']
 imagepath='../data/'
-listall=glob.glob(imagepath+'summary/namelist_*.txt')
-listall.sort()
 
-for each in listall:
+for i in foldername:
+    for j in sumsize:
+        each=imagepath+'summary/namelist_'+i+'_'+j+'.txt'
+        list=np.loadtxt(each)
 
-    list=np.loadtxt(each)
-
-    list3=list[1:]
-    list3.sort()
-    leng=len(list3)
-    fig=pylab.figure(figsize=(50,int(40/(100/leng))),dpi=300)
-    fig.subplots_adjust(hspace=0.,wspace=0.05)
-    for j in xrange(leng):
-        name=imagepath+'image/'+each.split('namelist_')[-1].split('_')[0]+'/'+str(int(list3[j])).zfill(4)+'.jpg'
-        jpgfile = Image.open(name)
-        pylab.subplot(leng/10,10,j+1)
-        pylab.imshow(jpgfile)
-        pylab.axis('off')
-    pylab.savefig(imagepath+'summary/'+each.split('namelist_')[-1].split('.txt')[0]+'.png')
-    pylab.close()
+        list3=list[1:]
+        list3.sort()
+        leng=len(list3)
+        fig=pylab.figure(figsize=(80,int(64/(100/leng))),dpi=300)
+        fig.subplots_adjust(hspace=0.,wspace=0.05)
+        for j in xrange(leng):
+            name=imagepath+'image/'+each.split('namelist_')[-1].split('_')[0]+'/'+str(int(list3[j])).zfill(4)+'.jpg'
+            jpgfile = Image.open(name)
+            pylab.subplot(leng/10,10,j+1)
+            pylab.imshow(jpgfile)
+            pylab.axis('off')
+        #pylab.savefig(imagepath+'summary/'+each.split('namelist_')[-1].split('.txt')[0]+'.png')
+        pylab.show()
+        #pylab.close()
 
 
 
